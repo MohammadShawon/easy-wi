@@ -1,5 +1,25 @@
 language: php
+
 php:
   - '7.0'
-  - '7.1'
-  - nightly
+
+before_install:
+  - mysql -e 'CREATE DATABASE homestead_test;'
+
+before_script:
+  - mkdir -p bootstrap/cache
+  - mkdir -p storage/app
+  - mkdir -p storage/framework/sessions
+  - mkdir -p storage/framework/cache
+  - mkdir -p storage/framework/views
+  - chmod 777 -R storage
+  - cp .env.travis .env
+  - composer self-update
+  - composer install --no-interaction
+  - php artisan key:generate
+  - php artisan migrate
+script:
+  - vendor/bin/phpunit
+
+services:
+  - mysql
