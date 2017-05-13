@@ -7,13 +7,11 @@ before_install:
   - mysql -e 'CREATE DATABASE homestead_test;'
 
 before_script:
-  - mkdir bootstrap/cache
-  - mkdir storage
-  - mkdir storage/app
-  - mkdir storage/framework
-  - mkdir storage/framework/sessions
-  - mkdir storage/framework/cache
-  - mkdir storage/framework/views
+  - mkdir -p bootstrap/cache
+  - mkdir -p storage/app
+  - mkdir -p storage/framework/sessions
+  - mkdir -p storage/framework/cache
+  - mkdir -p storage/framework/views
   - chmod 777 -R storage
   - cp .env.travis .env
   - composer self-update
