@@ -3,13 +3,18 @@ language: php
 php:
   - '7.0'
 
+before_install:
+  - mysql -e 'CREATE DATABASE travis;'
+
 before_script:
   - cp .env.travis .env
-  - mysql -e 'create database homestead_test;'
   - composer self-update
-  - composer update --lock
-  - php artisan cache:clear
   - composer install --no-interaction
+  - php artisan key:generate
+  - php artisan migrate
 
 script:
   - vendor/bin/phpunit
+
+services:
+  - mysql
