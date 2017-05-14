@@ -23,3 +23,7 @@ script:
 
 services:
   - mysql
+
+branches:
+  only:
+    - master
