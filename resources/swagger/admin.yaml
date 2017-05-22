@@ -25,7 +25,7 @@ paths:
           schema:
             type: array
             items:
-              $ref: "#/definitions/Admin"
+              $ref: "#/definitions/AdminList"
     post:
       tags:
         - "admins"
@@ -64,14 +64,14 @@ paths:
       parameters:
         - name: "id"
           in: "path"
-          description: "The ID that needs to be fetched. Use 1 for testing."
+          description: "The ID that needs to be fetched."
           required: true
           type: "integer"
       responses:
         200:
           description: "Successful operation"
           schema:
-            $ref: "#/definitions/Admin"
+            $ref: "#/definitions/AdminList"
         400:
           description: "Bad request"
           schema:
@@ -96,7 +96,7 @@ paths:
           description: "Updated admin object"
           required: true
           schema:
-            $ref: "#/definitions/AdminPut"
+            $ref: "#/definitions/Admin"
       responses:
         201:
           description: "Admin updated"
@@ -160,10 +160,10 @@ paths:
 definitions:
   Admin:
     type: "object"
+    required:
+      - name
+      - email
     properties:
-      id:
-        type: "integer"
-        format: "int64"
       active:
         type: "boolean"
       name:
@@ -173,39 +173,32 @@ definitions:
       lastName:
         type: "string"
       email:
-        type: "string"
-      created_at:
-        type: "string"
-      updated_at:
         type: "string"
   AdminPost:
-    type: "object"
-    properties:
-      active:
-        type: "boolean"
-      name:
-        type: "string"
-      firstName:
-        type: "string"
-      lastName:
-        type: "string"
-      email:
-        type: "string"
-  AdminPut:
-    type: "object"
-    properties:
-      active:
-        type: "boolean"
-      name:
-        type: "string"
-      firstName:
-        type: "string"
-      lastName:
-        type: "string"
-      email:
-        type: "string"
+    allOf:
+    - $ref: '#/definitions/Admin'
+    - type: object
+      required:
+        - password
+      properties:
+        password:
+          type: "string"
+  AdminList:
+    allOf:
+    - $ref: '#/definitions/Admin'
+    - type: object
+      properties:
+        id:
+          type: "integer"
+          format: "int64"
+        created_at:
+          type: "string"
+        updated_at:
+          type: "string"
   Password:
     type: "object"
+    required:
+      - password
     properties:
       password:
         type: "string"
