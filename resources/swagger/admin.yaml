@@ -1,0 +1,229 @@
+swagger: "2.0"
+info:
+  description: "Global administration API. Manages admins, tenants and global settings. Base path is /api/v1/global/."
+  version: "1.0.0"
+  title: "Global Admin API"
+host: "your-host.domain"
+basePath: "/api/v1/global"
+tags:
+  - name: "admins"
+    description: "Manages admins"
+schemes:
+  - "http"
+  - "https"
+paths:
+  /admins:
+    get:
+      tags:
+        - "admins"
+      summary: "Lists all admins"
+      produces:
+        - "application/json"
+      responses:
+        200:
+          description: "Successful operation"
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/Admin"
+    post:
+      tags:
+        - "admins"
+      summary: "Create an admin account"
+      description: ""
+      consumes:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "To be created admin object"
+          required: true
+          schema:
+            $ref: "#/definitions/AdminPost"
+      responses:
+        201:
+          description: "Admin created"
+          headers:
+            Location:
+              description: "Created admin's location"
+              type: string
+        400:
+          description: "Bad request"
+          schema:
+            $ref: '#/definitions/ErrorModel'
+  /admins/{id}:
+    get:
+      tags:
+        - "admins"
+      summary: "Get admin by ID"
+      description: ""
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "The ID that needs to be fetched. Use 1 for testing."
+          required: true
+          type: "integer"
+      responses:
+        200:
+          description: "Successful operation"
+          schema:
+            $ref: "#/definitions/Admin"
+        400:
+          description: "Bad request"
+          schema:
+            $ref: '#/definitions/ErrorModel'
+        404:
+          description: "Admin not found"
+    put:
+      tags:
+        - "admins"
+      summary: "Updated admin"
+      description: ""
+      consumes:
+        - "application/json"
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "The ID that needs to be updated"
+          required: true
+          type: "integer"
+        - in: "body"
+          name: "body"
+          description: "Updated admin object"
+          required: true
+          schema:
+            $ref: "#/definitions/AdminPut"
+      responses:
+        201:
+          description: "Admin updated"
+        400:
+          description: "Bad request"
+          schema:
+            $ref: '#/definitions/ErrorModel'
+        404:
+          description: "Admin not found"
+    delete:
+      tags:
+        - "admins"
+      summary: "Delete admin"
+      description: ""
+      consumes:
+        - "application/json"
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "The ID that needs to be deleted"
+          required: true
+          type: "integer"
+      responses:
+        201:
+          description: "Admin deleted"
+        400:
+          description: "Bad request"
+          schema:
+            $ref: '#/definitions/ErrorModel'
+        404:
+          description: "Admin not found"
+  /admins/{id}/password:
+    put:
+      tags:
+        - "admins"
+      summary: "Sets an admin's password"
+      description: ""
+      consumes:
+        - "application/json"
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "The ID that needs to be updated"
+          required: true
+          type: "integer"
+        - in: "body"
+          name: "body"
+          description: "Updated admin object"
+          required: true
+          schema:
+            $ref: "#/definitions/Password"
+      responses:
+        201:
+          description: "Password updated"
+        400:
+          description: "Bad request"
+          schema:
+            $ref: '#/definitions/ErrorModel'
+        404:
+          description: "Admin not found"
+definitions:
+  Admin:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+      active:
+        type: "boolean"
+      name:
+        type: "string"
+      firstName:
+        type: "string"
+      lastName:
+        type: "string"
+      email:
+        type: "string"
+      created_at:
+        type: "string"
+      updated_at:
+        type: "string"
+  AdminPost:
+    type: "object"
+    properties:
+      active:
+        type: "boolean"
+      name:
+        type: "string"
+      firstName:
+        type: "string"
+      lastName:
+        type: "string"
+      email:
+        type: "string"
+  AdminPut:
+    type: "object"
+    properties:
+      active:
+        type: "boolean"
+      name:
+        type: "string"
+      firstName:
+        type: "string"
+      lastName:
+        type: "string"
+      email:
+        type: "string"
+  Password:
+    type: "object"
+    properties:
+      password:
+        type: "string"
+  ErrorModel:
+    type: object
+    required:
+      - message
+      - code
+      - rootCause
+    properties:
+      code:
+        type: integer
+        minimum: 100
+        maximum: 600
+      message:
+        type: string
+      rootCause:
+        type: string
+externalDocs:
+  description: "Find out more about Easy-Wi"
+  url: "https://easy-wi.com"
