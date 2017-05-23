@@ -33,10 +33,11 @@ Route::group(['middleware' => 'admin_guest'], function() {
 });
 
 // Only logged in admins can access or send requests to these pages
-Route::group(['middleware' => 'admin_auth'], function(){
+Route::group(['middleware' => 'admin_auth'], function() {
 
-    Route::post('global_logout', 'AdminAuth\LoginController@logout');
-    Route::get('/global', function(){
+    Route::get('/global', function() {
         return view('global.home');
     });
+
+    Route::post('global_logout', 'AdminAuth\LoginController@logout');
 });
