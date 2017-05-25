@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Hash;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
@@ -39,5 +40,16 @@ class Admin extends Authenticatable
     public function sendPasswordResetNotification($token)
     {
         $this->notify(new AdminResetPasswordNotification($token));
+    }
+
+    /**
+     * Hash the password in case it gets updated.
+     *
+     * @param string $password
+     * @return void
+     */
+    public function setPasswordAttribute($password)
+    {
+        $this->attributes['password'] = Hash::make($password);
     }
 }
