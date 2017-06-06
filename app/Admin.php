@@ -50,6 +50,9 @@ class Admin extends Authenticatable
      */
     public function setPasswordAttribute($password)
     {
-        $this->attributes['password'] = Hash::make($password);
+        // In case the password was not hashed before setting, hash it
+        if (!preg_match('/^\$(?:2[ayb]?|1)\$[0-9]{2}\$[\w\/\.]{53}$/', $password)) {
+            $this->attributes['password'] = Hash::make($password);
+        }
     }
 }
