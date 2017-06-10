@@ -7,7 +7,7 @@
             <div class="panel panel-success">
                 <div class="panel-heading">Global Admin Login</div>
                 <div class="panel-body">
-                    <form class="form-horizontal" role="form" method="POST" action="{{ url('/global_login') }}">
+                    <form class="form-horizontal" role="form" method="POST" action="{{ url('/global/login') }}">
                         {{ csrf_field() }}
 
                         <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
@@ -54,7 +54,7 @@
                                     Login
                                 </button>
 
-                                <a class="btn btn-link" href="{{ url('/global_password/reset') }}">
+                                <a class="btn btn-link" href="{{ url('/global/password/reset') }}">
                                     Forgot Your Password?
                                 </a>
                             </div>

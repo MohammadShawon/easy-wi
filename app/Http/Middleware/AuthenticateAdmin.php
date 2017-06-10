@@ -19,7 +19,7 @@ class AuthenticateAdmin
         //If request does not comes from logged in seller
         //then he shall be redirected to Seller Login page
         if (! Auth::guard('web_admin')->check()) {
-            return redirect('/global_login');
+            return redirect('/global/login');
         }
 
         return $next($request);
