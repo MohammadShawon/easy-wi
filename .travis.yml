@@ -17,12 +17,11 @@ before_script:
   - cp .env.travis .env
   - composer self-update
   - composer install --no-interaction
-  - composer update --no-interaction
   - php artisan key:generate
   - php artisan migrate
 script:
-  - vendor/bin/phpunit
   - vendor/squizlabs/php_codesniffer/bin/phpcs -n -q
+  - vendor/bin/phpunit
 
 services:
   - mysql
