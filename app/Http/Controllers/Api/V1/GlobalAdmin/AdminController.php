@@ -20,7 +20,7 @@ class AdminController extends ApiController
         'last_name' => 'nullable|string|max:255',
         'email' => 'required|email|unique:admins|max:255',
         'password' => 'required|min:6|regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/',
-        'locked' => 'boolean'
+        'locked' => 'nullable|boolean'
     ];
 
     /**
