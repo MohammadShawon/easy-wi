@@ -83,10 +83,9 @@ class ApiController extends Controller
      *
      * @param number $statusCode
      * @param array $error
-     * @param array $headers
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    protected function respondWithError($statusCode, $error, $headers = [])
+    protected function respondWithError($statusCode, $error)
     {
         return response()->json(['errors' => $error])->setStatusCode($statusCode);
     }
