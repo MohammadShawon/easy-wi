@@ -40,24 +40,6 @@ class GlobalAdminTest extends TestCase
     }
 
     /**
-     * Test ID validation
-     *
-     * @return void
-     */
-    public function testInvalidIdTest()
-    {
-        $response = $this->json('PUT', '/api/v1/global/admins/abc', [
-            'name' => 'Test2',
-            'first_name' => 'Absd',
-            'last_name' => 'asd',
-            'email' => 'test2@easy-wi.com',
-            'locked' => true
-        ]);
-
-        $response->assertStatus(204);
-    }
-
-    /**
      * Create an admin with invalid.
      *
      * @return void
@@ -172,6 +154,38 @@ class GlobalAdminTest extends TestCase
         ]);
 
         $response->assertStatus(204);
+    }
+
+    /**
+     * Update the admin's password
+     *
+     * @return void
+     */
+    public function testUpdateAdminPasswordTest()
+    {
+        $response = $this->json('PUT', '/api/v1/global/admins/1/password', [
+            'password' => 'Testing123'
+        ]);
+
+        $response->assertStatus(204);
+    }
+
+    /**
+     * Create an admin with invalid.
+     *
+     * @return void
+     */
+    public function testUpdateAdminInvalidPasswordTest()
+    {
+        $response = $this->json('PUT', '/api/v1/global/admins/1/password', [
+            'password' => 'password123'
+        ]);
+
+        $response->assertStatus(422)->assertExactJson([
+            'errors' => [
+                'password' => ['The password format is invalid.']
+            ]
+        ]);
     }
 
     /**
