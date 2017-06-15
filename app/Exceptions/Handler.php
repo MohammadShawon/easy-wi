@@ -36,7 +36,40 @@ class Handler extends ExceptionHandler
     }
 
     /**
-     * Render an exception into an HTTP response.
+     * Assume the response code from the class name.
+     *
+     * @param string $className
+     * @return number
+     */
+    private function responseCodeFromClass($className)
+    {
+        switch ($className) {
+            case 'Illuminate\\Database\\Eloquent\\ModelNotFoundException':
+                return 404;
+            default:
+                return 400;
+        }
+    }
+
+    /**
+     * Speaking error message
+     *
+     * @param number $code
+     * @param string $exceptionMessage
+     * @return string
+     */
+    private function errorMessageFromCode($code, $exceptionMessage)
+    {
+        switch ($code) {
+            case 404:
+                return 'Entry not found';
+            default:
+                return $exceptionMessage;
+        }
+    }
+
+    /**
+     * Render an exception into an HTTP REST API response.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \Exception  $exception
@@ -44,6 +77,32 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+        if ($request->expectsJson() || $request->wantsJson() || $request->acceptsJson()) {
+            // Get the status code based on the class name
+            $status = $this->responseCodeFromClass(get_class($exception));
+
+            // If this exception is an instance of HttpException
+            if ($this->isHttpException($exception)) {
+                // Grab the HTTP status code from the Exception
+                $status = $exception->getStatusCode();
+            }
+
+            // Define the response
+            $response = [
+                'message' => $this->errorMessageFromCode($status, $exception->getMessage())
+            ];
+
+            // If the app is in debug mode
+            if (config('app.debug')) {
+                // Add the exception class name, message and stack trace to response
+                $response['exception'] = get_class($exception); // Reflection might be better here
+                $response['trace'] = $exception->getTrace();
+            }
+
+            // Return a JSON response with the response array and status code
+            return response()->json($response, $status);
+        }
+
         return parent::render($request, $exception);
     }
 

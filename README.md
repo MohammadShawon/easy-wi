@@ -10,14 +10,29 @@ The Easy-Wi server management panel.
 [![Issue Count](https://codeclimate.com/github/easy-wi/easy-wi/badges/issue_count.svg)](https://codeclimate.com/github/easy-wi/easy-wi)
 [![Gitter Chat](https://img.shields.io/badge/gitter-join%20chat-blue.svg)](https://gitter.im/easy-wi/Lobby?utm\_source=badge)
 
-Overview
----
+# Quickstart
 
-Frequently Asked Questions (FAQs)
----
 
-Building
----
+# Frequently Asked Questions (FAQs)
+## Login
+Possible with e-mail and user name.
 
-Testing
----
+# Developing
+
+## API First
+
+## Test Driven Developement
+
+### Swagger/OpenAPI
+Document the API in Swagger/OpenAPI format.
+
+### PHPUnit
+Unit and API acceptance testing
+
+### Laravel Dusk
+Browser testing
+
+## Building and Running
+### Locally
+### Travis CI
+### Laravel Mix
